@@ -1,4 +1,4 @@
-# 基于 nodejs 的博客园爬虫项目
+# 基于 nodejs 的可视化博客园爬虫项目
 
 运行方式
 ```js
@@ -26,7 +26,6 @@ http-server
     - 原生 fetch API 取数据
     - ECharts做数据可视化
     
-
 - 服务端
     - node http server，做CORS，允许跨域
     - superagent做发送请求工具
@@ -35,6 +34,12 @@ http-server
     - eventproxy做事件代理，对已抓取文章计数
     - 业务逻辑
 
+### 后续
+- 模块化代码
+- 对几个具体工具做进一步研究
+- 优化数据展示
+- 爬虫的训练机制
+- 使用不同语言的学习成本对比
 
 
 
