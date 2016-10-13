@@ -21,9 +21,9 @@ function getPersonInfo(url, cb) {
                 age = "",
                 flag = false,
                 curDate = new Date();
-            var city = $('#blog-news>div:first-child>span:first-child>p:last-child');
-
-                console.log(city.html())
+            // var city = $('#blog-news>div:first-child>span:first-child>p:last-child');
+            //
+            //     console.log(city.html())
                 // console.log(city.text())
                 // .html().trim().split('<br>')[1].split('：')[1];
             // console.log(city)

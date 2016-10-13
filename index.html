@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="main" style="width:600px;height:400px;"></div>
+
+<script src="lib/echarts.js"></script>
+<script>
+
+    var myChart = echarts.init(document.getElementById('main'));
+    // 显示标题，图例和空的坐标轴
+    myChart.setOption({
+        title: {
+            text: '博客园文章作者统计'
+        },
+        tooltip: {},
+        legend: {
+            data: ['数量']
+        },
+        xAxis: {
+            data: []
+        },
+        yAxis: {},
+        series: [{
+            name: '数量',
+            type: 'bar',
+            data: []
+        }]
+    });
+    myChart.showLoading();
+    fetch('http://localhost:3000').then(function (response) {
+        myChart.hideLoading();
+        response.json().then(function (json) {
+            var {pageNum, authorNum, aveAge, aveFans, aveFocus} = json;
+
+            myChart.setOption({
+                title: {
+                    text: '博客园文章作者统计'
+                },
+                tooltip: {},
+                legend: {
+                    data: ['数量']
+                },
+                xAxis: {
+                    data: ["页数", "作者总数", "入园平均天数", "人均粉丝数", "人均关注数"]
+                },
+                yAxis: {},
+                series: [{
+                    name: '数量',
+                    type: 'bar',
+                    data: [pageNum, authorNum, aveAge, aveFans, aveFocus]
+                }]
+            });
+        });
+
+
+    }).catch(function (err) {
+        console.log(err)
+    })
+
+
+</script>
+</body>
+</html>

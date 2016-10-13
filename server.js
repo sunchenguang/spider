@@ -8,7 +8,7 @@ var http = require("http"),
 var utils = require('./util/utils');
 var personInfo = utils.getPersonInfo;
 var isRepeat = utils.isRepeat;
-
+var fs = require('fs');
 var ep = new eventproxy();
 
 var catchFirstUrl = 'http://www.cnblogs.com/',	//入口页面
@@ -28,6 +28,11 @@ for (var i = 1; i <= pageNum; i++) {
 // 主start程序
 function start() {
     function onRequest(req, res) {
+        //设置服务器的cors，解决跨域问题
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Request-Method', '*');
+        res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET');
+        res.setHeader('Access-Control-Allow-Headers', '*');
         // 设置字符编码(去掉中文会乱码)
         res.writeHead(200, {'Content-Type': 'text/html;charset=utf-8'});
         // 当所有 'BlogArticleHtml' 事件完成后的回调触发下面事件
@@ -114,7 +119,11 @@ function start() {
                 // res.write('7、作者人均粉丝数：' + Math.round(aveFans / len * 100) / 100 + '<br/>');
                 // res.write('8、作者人均关注数：' + Math.round(aveFocus / len * 100) / 100 + '<br/>');
                 var sendData = JSON.stringify({
-
+                    pageNum: pageNum * 20,
+                    authorNum: len,
+                    aveAge: Math.round(aveAge / len),
+                    aveFans: Math.round(aveFans / len),
+                    aveFocus: Math.round(aveFocus / len)
                 });
 
                 res.end(sendData);
