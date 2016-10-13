@@ -18,16 +18,7 @@ function getPersonInfo(url, cb) {
             var $ = cheerio.load(ares.text),
                 info = $('#profile_block a'),
                 len = info.length,
-                age = "",
-                flag = false,
-                curDate = new Date();
-            // var city = $('#blog-news>div:first-child>span:first-child>p:last-child');
-            //
-            //     console.log(city.html())
-                // console.log(city.text())
-                // .html().trim().split('<br>')[1].split('：')[1];
-            // console.log(city)
-
+                age = "";
             // 小概率异常抛错
             try {
                 age = "20" + (info.eq(1).attr('title').split('20')[1]);
@@ -47,9 +38,6 @@ function getPersonInfo(url, cb) {
                 infoArray.fans = info.eq(3).text();
                 infoArray.focus = info.eq(4).text();
             }
-            //console.log('用户信息:'+JSON.stringify(infoArray));
-            // console.log(infoArray)
-            // return infoArray;
             cb(infoArray);
 
         });
@@ -69,7 +57,7 @@ function isRepeat(deleteRepeat, authorName) {
 module.exports = {
     getPersonInfo,
     isRepeat
-}
+};
 
 
 

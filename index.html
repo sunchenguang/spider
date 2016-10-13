@@ -9,7 +9,6 @@
 
 <script src="lib/echarts.js"></script>
 <script>
-
     var myChart = echarts.init(document.getElementById('main'));
     // 显示标题，图例和空的坐标轴
     myChart.setOption({
@@ -31,6 +30,7 @@
         }]
     });
     myChart.showLoading();
+    //使用原生fetch API来发请求
     fetch('http://localhost:3000').then(function (response) {
         myChart.hideLoading();
         response.json().then(function (json) {
