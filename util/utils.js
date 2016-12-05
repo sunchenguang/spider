@@ -1,13 +1,13 @@
 /**
  * Created by suncg on 2016/10/12.
  */
-var superagent = require('superagent');
-var cheerio = require('cheerio');
+let superagent = require('superagent');
+let cheerio = require('cheerio');
 
 
 // 抓取昵称、入园年龄、粉丝数、关注数
 function getPersonInfo(url, cb) {
-    var infoArray = {};
+    let infoArray = {};
     superagent.get(url)
         .end(function (err, ares) {
             if (err) {
@@ -15,7 +15,7 @@ function getPersonInfo(url, cb) {
                 return;
             }
 
-            var $ = cheerio.load(ares.text),
+            let $ = cheerio.load(ares.text),
                 info = $('#profile_block a'),
                 len = info.length,
                 age = "";

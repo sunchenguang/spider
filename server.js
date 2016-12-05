@@ -1,24 +1,24 @@
-var http = require("http"),
+let http = require("http"),
     url = require("url"),
     superagent = require("superagent"),
     cheerio = require("cheerio"),
     async = require("async"),
     eventproxy = require('eventproxy');
 
-var utils = require('./util/utils');
-var personInfo = utils.getPersonInfo;
-var isRepeat = utils.isRepeat;
-var fs = require('fs');
-var ep = new eventproxy();
+let utils = require('./util/utils');
+let personInfo = utils.getPersonInfo;
+let isRepeat = utils.isRepeat;
+let fs = require('fs');
+let ep = new eventproxy();
 
-var catchFirstUrl = 'http://www.cnblogs.com/',	//入口页面
+let catchFirstUrl = 'http://www.cnblogs.com/',	//入口页面
     deleteRepeat = {},	//去重哈希数组
     urlsArray = [],	//存放爬取网址
     catchDate = [],	//存放爬取数据
     pageUrls = [],	//存放收集文章页面网站
     pageNum = 2;	//要爬取文章的页数
 
-for (var i = 1; i <= pageNum; i++) {
+for (let i = 1; i <= pageNum; i++) {
     pageUrls.push(`${catchFirstUrl}?CategoryId=808&CategoryType=%22SiteHome%22&ItemListActionName=%22PostList%22&PageIndex=${i}&ParentCategoryId=0`);
 }
 
@@ -33,14 +33,14 @@ for (var i = 1; i <= pageNum; i++) {
  * @param url
  * @param callback
  */
-var singleUrlProcess = function (url, callback) {
+let singleUrlProcess = function (url, callback) {
     //收集数据
     //1、收集用户个人信息，昵称、园龄、粉丝、关注
-    var currentBlogApp = url.split('/p/')[0].split('/')[3];
-    var flag = isRepeat(deleteRepeat, currentBlogApp);
+    let currentBlogApp = url.split('/p/')[0].split('/')[3];
+    let flag = isRepeat(deleteRepeat, currentBlogApp);
 
     if (!flag) {
-        var appUrl = `http://www.cnblogs.com/mvc/blog/news.aspx?blogApp=${currentBlogApp}`;
+        let appUrl = `http://www.cnblogs.com/mvc/blog/news.aspx?blogApp=${currentBlogApp}`;
         personInfo(appUrl, function (info) {
             //返回数据后执行添加数据
             // catchDate.push(info);
@@ -71,7 +71,7 @@ function asyncProcessUrls(articleUrls, callback) {
         function (err, results) {
             //results是reptileMove 执行callback返回的
 
-            var len = 0,
+            let len = 0,
                 aveAge = 0,
                 aveFans = 0,
                 aveFocus = 0, eachDateJson, eachDateJsonFans, eachDateJsonFocus;
@@ -83,7 +83,7 @@ function asyncProcessUrls(articleUrls, callback) {
 
             len = catchDate.length;
 
-            for (var i = 0; i < len; i++) {
+            for (let i = 0; i < len; i++) {
                 eachDateJson = catchDate[i];
                 // 小几率取不到值则赋默认值
                 eachDateJsonFans = eachDateJson.fans || 110;
@@ -94,7 +94,7 @@ function asyncProcessUrls(articleUrls, callback) {
                 aveFocus += parseInt(eachDateJsonFocus);
             }
 
-            var sendData = JSON.stringify({
+            let sendData = JSON.stringify({
                 pageNum: pageNum * 20,
                 authorNum: len,
                 aveAge: Math.round(aveAge / len),
@@ -123,10 +123,10 @@ function getAllUrls(pageUrls) {
                 // pres.text 里面存储着请求返回的 html 内容，将它传给 cheerio.load 之后
                 // 就可以得到一个实现了 jquery 接口的变量，我们习惯性地将它命名为 `$`
                 // 剩下就都是 jquery 的内容了
-                var $ = cheerio.load(pres.text);
-                var curPageUrls = $('.titlelnk');
-                for (var i = 0; i < curPageUrls.length; i++) {
-                    var articleUrl = curPageUrls.eq(i).attr('href');
+                let $ = cheerio.load(pres.text);
+                let curPageUrls = $('.titlelnk');
+                for (let i = 0; i < curPageUrls.length; i++) {
+                    let articleUrl = curPageUrls.eq(i).attr('href');
                     urlsArray.push(articleUrl);
                     // 相当于一个计数器
                     ep.emit('BlogArticleHtml', articleUrl);
